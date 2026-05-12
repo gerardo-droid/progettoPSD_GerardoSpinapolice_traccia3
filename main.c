@@ -19,6 +19,7 @@ int main() {
         printf("2. Visualizza tutte le segnalazioni\n");
         printf("3. Ricerca una segnalazione\n");
         printf("4. Aggiorna stato di una segnalazione\n");
+        printf("5. Elimina una segnalazione\n");
         printf("0. Esci dal programma\n");
         printf("Scegli un'opzione: ");
         
@@ -128,6 +129,25 @@ int main() {
                     }
                 } else {
                     printf("\n>>> ERRORE: ID %d non trovato.\n", id_modifica);
+                }
+                break;
+            }
+            case 5: {
+                int id_elimina;
+                int risultato;
+                
+                printf("\n--- Eliminazione Segnalazione ---\n");
+                printf("Inserisci l'ID della segnalazione da eliminare: ");
+                scanf("%d", &id_elimina);
+                svuota_buffer();
+                
+                /* Passiamo l'indirizzo della lista (&) per permettere la modifica della testa */
+                risultato = elimina_segnalazione(&lista_comune, id_elimina);
+                
+                if (risultato == 1) {
+                    printf("\n>>> Segnalazione con ID %d eliminata definitivamente dal sistema!\n", id_elimina);
+                } else {
+                    printf("\n>>> ERRORE: Nessuna segnalazione trovata con ID %d.\n", id_elimina);
                 }
                 break;
             }

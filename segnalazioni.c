@@ -111,3 +111,39 @@ Segnalazione* cerca_segnalazione(ListaSegnalazioni testa, int id_da_cercare) {
     /* Se il ciclo while finisce significa che siamo arrivati alla fine della lista (NULL) senza trovare nulla */
     return NULL;
 }
+int elimina_segnalazione(ListaSegnalazioni* testa, int id_da_eliminare) {
+    Segnalazione* temp = *testa;
+    Segnalazione* prec = NULL;
+
+    /* Sottocategoria 2.1: Caso Lista Vuota */
+    if (temp == NULL) {
+        return 0; /* Fallimento: non c'è nulla da eliminare */
+    }
+
+    /* Sottocategoria 2.2: Caso Eliminazione della Testa (Primo nodo) */
+    if (temp->codice_id == id_da_eliminare) {
+        *testa = temp->next; /* Spostiamo l'inizio della lista al secondo elemento */
+        free(temp);          /* Liberiamo fisicamente la memoria del primo */
+        return 1;            /* Successo */
+    }
+
+    /* Sottocategoria 2.3: Caso Ricerca ed Eliminazione nel resto della lista */
+    /* Scorriamo la lista tenendo traccia del nodo precedente (prec) */
+    while (temp != NULL && temp->codice_id != id_da_eliminare) {
+        prec = temp;
+        temp = temp->next;
+    }
+
+    /* Se siamo arrivati alla fine (NULL) senza trovare l'ID */
+    if (temp == NULL) {
+        return 0; /* Fallimento: ID non trovato */
+    }
+
+    /* Se lo abbiamo trovato, "scuciamo" il nodo temp e ricuciamo prec con il successivo */
+    prec->next = temp->next;
+    
+    /* Liberiamo fisicamente la memoria del nodo rimosso */
+    free(temp);
+    
+    return 1; /* Successo */
+}

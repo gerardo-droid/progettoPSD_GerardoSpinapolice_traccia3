@@ -39,5 +39,7 @@ void visualizza_segnalazioni(ListaSegnalazioni testa);
 Segnalazione* crea_segnalazione(int codice, const char* nome, const char* cat, const char* descr, const char* data, LivelloUrgenza urg);
 /* Funzione per cercare una segnalazione nella lista tramite il suo ID numerico */
 Segnalazione* cerca_segnalazione(ListaSegnalazioni testa, int id_da_cercare);
+/* Funzione per eliminare una segnalazione dalla memoria */
+int elimina_segnalazione(ListaSegnalazioni* testa, int id_da_eliminare);
 
 #endif
