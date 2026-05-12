@@ -9,7 +9,7 @@ void svuota_buffer() {
 
 int main() {
     int scelta = -1;
-    
+
     ListaSegnalazioni lista_comune = NULL; 
 
     printf("Sistema Della Gestione Delle Segnalazioni Al Comune\n");
@@ -30,24 +30,54 @@ int main() {
         }
         svuota_buffer();
 
-        /*gestione delle scelte dell'utente*/
         /* Gestione delle scelte dell'utente */
         switch (scelta) {
-           case 1: {
-            /* 1. PRIMA la dichiarazione (Regola C89) */
-            Segnalazione* nuova = crea_segnalazione(101, "Mario Rossi", "Illuminazione", "Lampione rotto in Via Roma", "05/05/2026", ALTA);
-            
-            /* 2. DOPO il codice operativo (printf) */
-            printf("\n--- Inserimento Nuova Segnalazione ---\n");
-            
-            if (nuova != NULL) {
-                inserisci_segnalazione(&lista_comune, nuova);
-                printf("Segnalazione inserita con successo!\n");
-            }
-            break;
+            case 1: {
+                int id_input;
+                char nome_input[50];
+                char cat_input[30];
+                char desc_input[200];
+                char data_input[11];
+                int urgenza_scelta;
+                LivelloUrgenza urg_input;
+                Segnalazione* nuova;
+
+                printf("\n--- Inserimento Nuova Segnalazione ---\n");
+
+                printf("Inserisci ID numerico: ");
+                scanf("%d", &id_input);
+                svuota_buffer();
+
+                printf("Inserisci Nome e Cognome: ");
+                scanf("%[^\n]", nome_input);
+                svuota_buffer();
+
+                printf("Categoria (es. Illuminazione, Rifiuti): ");
+                scanf("%[^\n]", cat_input);
+                svuota_buffer();
+
+                printf("Descrizione del problema: ");
+                scanf("%[^\n]", desc_input);
+                svuota_buffer();
+
+                printf("Data (gg/mm/aaaa): ");
+                scanf("%s", data_input);
+                svuota_buffer();
+
+                printf("Urgenza (0:BASSA, 1:MEDIA, 2:ALTA): ");
+                scanf("%d", &urgenza_scelta);
+                urg_input = (LivelloUrgenza)urgenza_scelta;
+                svuota_buffer();
+
+                nuova = crea_segnalazione(id_input, nome_input, cat_input, desc_input, data_input, urg_input);
+                
+                if (nuova != NULL) {
+                    inserisci_segnalazione(&lista_comune, nuova);
+                    printf("\nSegnalazione salvata con successo!\n");
+                }
+                break;
             }
             case 2:
-                /* Richiamiamo la funzione passando la testa della lista */
                 visualizza_segnalazioni(lista_comune);
                 break;
             case 3:
@@ -58,6 +88,7 @@ int main() {
                 break;
             default:
                 printf("\nOpzione non valida. Riprova.\n");
+                break;
         }
     } while (scelta != 0);
 
