@@ -1,25 +1,19 @@
-# Definiamo il compilatore e i flag richiesti dal progetto (Standard C89)
+# Definiamo il compilatore e i flag richiesti dal progetto (C99)
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c89 -pedantic
+CFLAGS = -Wall -std=c99 -g
+OBJ = main.o //devi aggiungere il file delle funzioni
 
-# L'eseguibile finale
-TARGET = segnalazioni_comune
+#TARGET PRINCIPALE 
+programma.exe: $(OBJ)
+	$(CC) $(OBJ) -o programma.exe
 
-# Regola principale
-all: $(TARGET)
-
-# Come costruire l'eseguibile unendo i pezzi
-$(TARGET): main.o segnalazioni.o
-	$(CC) $(CFLAGS) -o $(TARGET) main.o segnalazioni.o
-
-# Come compilare il main
-main.o: main.c segnalazioni.h
+#Compilazione dei file .c e dei file .o	
+main.o: main.c //inserisci file delle strutture.h e delle funzioni.h
 	$(CC) $(CFLAGS) -c main.c
 
-# Come compilare la logica delle segnalazioni
-segnalazioni.o: segnalazioni.c segnalazioni.h
-	$(CC) $(CFLAGS) -c segnalazioni.c
+funzioni.o: funzioni.c funzioni.h strutture.h
+	$(CC) $(CFLAGS) -c funzioni.c	
 
-# Comando per pulire i file temporanei
+#Pulizia dei file temporanei
 clean:
-	rm -f *.o $(TARGET) *.exe
+	del *.o programma.exe	
