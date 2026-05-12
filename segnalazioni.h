@@ -37,5 +37,7 @@ void inserisci_segnalazione(ListaSegnalazioni* testa, Segnalazione* nuova_segnal
 void visualizza_segnalazioni(ListaSegnalazioni testa);
 /* Prototipo per allocare una nuova segnalazione in memoria */
 Segnalazione* crea_segnalazione(int codice, const char* nome, const char* cat, const char* descr, const char* data, LivelloUrgenza urg);
+/* Funzione per cercare una segnalazione nella lista tramite il suo ID numerico */
+Segnalazione* cerca_segnalazione(ListaSegnalazioni testa, int id_da_cercare);
 
 #endif

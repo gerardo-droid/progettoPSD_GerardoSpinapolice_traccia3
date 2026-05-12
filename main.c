@@ -9,7 +9,6 @@ void svuota_buffer() {
 
 int main() {
     int scelta = -1;
-
     ListaSegnalazioni lista_comune = NULL; 
 
     printf("Sistema Della Gestione Delle Segnalazioni Al Comune\n");
@@ -19,6 +18,7 @@ int main() {
         printf("1. Inserisci una nuova segnalazione\n");
         printf("2. Visualizza tutte le segnalazioni\n");
         printf("3. Ricerca una segnalazione\n");
+        printf("4. Aggiorna stato di una segnalazione\n");
         printf("0. Esci dal programma\n");
         printf("Scegli un'opzione: ");
         
@@ -43,7 +43,6 @@ int main() {
                 Segnalazione* nuova;
 
                 printf("\n--- Inserimento Nuova Segnalazione ---\n");
-
                 printf("Inserisci ID numerico: ");
                 scanf("%d", &id_input);
                 svuota_buffer();
@@ -73,16 +72,65 @@ int main() {
                 
                 if (nuova != NULL) {
                     inserisci_segnalazione(&lista_comune, nuova);
-                    printf("\nSegnalazione salvata con successo!\n");
+                    printf("\n>>> Segnalazione salvata con successo!\n");
                 }
                 break;
             }
             case 2:
                 visualizza_segnalazioni(lista_comune);
                 break;
-            case 3:
-                printf("\nHai scelto di cercare una segnalazione. (Funzione in lavorazione)\n");
+
+            case 3: {
+                int id_ricerca;
+                Segnalazione* trovata;
+                
+                printf("\n--- Ricerca Segnalazione ---\n");
+                printf("Inserisci l'ID da cercare: ");
+                scanf("%d", &id_ricerca);
+                svuota_buffer();
+                
+                trovata = cerca_segnalazione(lista_comune, id_ricerca);
+                
+                if (trovata != NULL) {
+                    printf("\n>>> SEGNALAZIONE TROVATA <<<\n");
+                    printf("ID: %d | Cittadino: %s\n", trovata->codice_id, trovata->nome_cittadino);
+                    printf("Problema: %s\n", trovata->descrizione);
+                } else {
+                    printf("\n>>> ERRORE: ID %d non trovato.\n", id_ricerca);
+                }
                 break;
+            }
+
+            case 4: {
+                int id_modifica;
+                int nuovo_stato_int;
+                Segnalazione* da_modificare;
+
+                printf("\n--- Aggiornamento Stato Segnalazione ---\n");
+                printf("Inserisci l'ID della segnalazione da aggiornare: ");
+                scanf("%d", &id_modifica);
+                svuota_buffer();
+
+                da_modificare = cerca_segnalazione(lista_comune, id_modifica);
+
+                if (da_modificare != NULL) {
+                    printf("Segnalazione trovata: [%s] %s\n", da_modificare->categoria, da_modificare->descrizione);
+                    printf("Seleziona il nuovo stato:\n");
+                    printf("0: APERTA\n1: IN LAVORAZIONE\n2: CHIUSA\nScelta: ");
+                    scanf("%d", &nuovo_stato_int);
+                    svuota_buffer();
+
+                    if (nuovo_stato_int >= 0 && nuovo_stato_int <= 2) {
+                        da_modificare->stato = (StatoSegnalazione)nuovo_stato_int;
+                        printf("\n>>> Stato aggiornato con successo!\n");
+                    } else {
+                        printf("\n>>> ERRORE: Stato non valido.\n");
+                    }
+                } else {
+                    printf("\n>>> ERRORE: ID %d non trovato.\n", id_modifica);
+                }
+                break;
+            }
             case 0:
                 printf("\nChiusura del sistema in corso...\n");
                 break;

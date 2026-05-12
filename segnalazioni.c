@@ -65,24 +65,24 @@ void visualizza_segnalazioni(ListaSegnalazioni testa) {
         return; 
     }
 
-    /* Scorriamo la lista e formattiamo l'output */
+    /* Scorriamo la lista */
     while (temp != NULL) {
         
-        /* Traduzione logica dello Stato (da numero a testo) */
+        /* Traduzione dello Stato (da numero a testo) */
         switch (temp->stato) {
             case APERTA: stringa_stato = "Aperta"; break;
             case IN_CORSO: stringa_stato = "In Corso"; break;
             case CHIUSA: stringa_stato = "Chiusa"; break;
         }
 
-        /* Traduzione logica dell'Urgenza (da numero a testo) */
+        /* Traduzione dell'Urgenza (da numero a testo) */
         switch (temp->urgenza) {
             case BASSA: stringa_urgenza = "Bassa"; break;
             case MEDIA: stringa_urgenza = "Media"; break;
             case ALTA: stringa_urgenza = "Alta"; break;
         }
 
-        /* Stampa formattata in stile "Ticket del Comune" */
+        /* Stampa uguale allo stile di un ticket al comune*/
         printf("\n[Ticket #%d] - Stato: %s (Urgenza: %s)\n", temp->codice_id, stringa_stato, stringa_urgenza);
         printf("Cittadino:   %s\n", temp->nome_cittadino);
         printf("Categoria:   %s\n", temp->categoria);
@@ -93,4 +93,21 @@ void visualizza_segnalazioni(ListaSegnalazioni testa) {
         /* Passiamo al nodo successivo */
         temp = temp->next;
     }
+}
+Segnalazione* cerca_segnalazione(ListaSegnalazioni testa, int id_da_cercare) {
+    /* Creiamo un puntatore temporaneo per scorrere la lista partendo dalla testa */
+    Segnalazione* temp = testa;
+    
+    /* Scorriamo la lista nodo per nodo finché non finisce */
+    while (temp != NULL) {
+        /* Se l'ID del nodo corrente corrisponde a quello cercato, lo abbiamo trovato! */
+        if (temp->codice_id == id_da_cercare) {
+            return temp; /* Restituiamo il puntatore a questa specifica segnalazione */
+        }
+        /* Altrimenti, passiamo al nodo successivo */
+        temp = temp->next;
+    }
+    
+    /* Se il ciclo while finisce significa che siamo arrivati alla fine della lista (NULL) senza trovare nulla */
+    return NULL;
 }
